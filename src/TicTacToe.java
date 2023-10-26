@@ -40,19 +40,28 @@ public class TicTacToe {
     }
 
     public static boolean completar(char[][] tablero, int x, int y, boolean[] solucionado){
-        if(tablero[x][y] == '_'){
-            if (x == tablero.length-1 && y == tablero.length-1){
+        if (x == tablero.length-1 && y == tablero.length-1){
+            solucionado[0] = true;
+            return true;
+        }
+        if(y == tablero.length-1){
+            return completar(tablero, x+1, 0, solucionado);
+        }else{
+            tablero[x][y] = 'x';
+            if(solucion(tablero, x, y)){
                 solucionado[0] = true;
-                return true;
-            }
-            if(y == tablero.length-1){
-                return completar(tablero, x+1, 0, solucionado);
             }else{
-                return completar(tablero, x, y+1, solucionado);
+                tablero[x][y] = 'o';
+                if(solucion(tablero, x, y)){
+                    solucionado[0] = true;
+                }
             }
-        }else {
-            
+            return completar(tablero, x, y+1, solucionado);
         }
         return false;
+    }
+
+    public static boolean solucion(char[][] tablero, int x, int y){
+        
     }
 }
