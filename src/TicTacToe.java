@@ -4,11 +4,11 @@ public class TicTacToe {
 
     public static void main(String[] args) throws Exception {
         Scanner stdinput = new Scanner(System.in);
-        char[][] tablero = new char[3][3];
+        int size = stdinput.nextInt();
+        char[][] tablero = new char[size][size];
         insertar(tablero, 0, 0, stdinput);
         stdinput.close();
-        boolean[] solucionado = { false };
-        if(completar(tablero, 0, 0, solucionado)){
+        if(completar(tablero, 0, 0)){
             for(int i = 0; i < tablero.length; i++){
                 for(int j = 0; j < tablero.length; j++){
                     System.out.print(tablero[i][j]);
@@ -39,29 +39,69 @@ public class TicTacToe {
         }
     }
 
-    public static boolean completar(char[][] tablero, int x, int y, boolean[] solucionado){
-        if (x == tablero.length-1 && y == tablero.length-1){
-            solucionado[0] = true;
+    public static boolean completar(char[][] tablero, int x, int y){
+        if (x == tablero.length){
             return true;
         }
-        if(y == tablero.length-1){
-            return completar(tablero, x+1, 0, solucionado);
+
+        int newX = x, newY = y;
+        if(y == tablero[y].length -1){
+            newX++;
+            newY = 0;
+        }else{
+            newY++;
+        }
+        if(tablero[x][y] != '_'){
+            return completar(tablero, newX, newY);
         }else{
             tablero[x][y] = 'x';
-            if(solucion(tablero, x, y)){
-                solucionado[0] = true;
-            }else{
-                tablero[x][y] = 'o';
-                if(solucion(tablero, x, y)){
-                    solucionado[0] = true;
-                }
+            if(solucion(tablero, x , y) && completar(tablero, newX, newY)){
+                return true;
             }
-            return completar(tablero, x, y+1, solucionado);
-        }
+            tablero[x][y] = 'o';
+            if(solucion(tablero, x , y) && completar(tablero, newX, newY)){
+                return true;
+            }
+            tablero[x][y] = '_';
+        } 
         return false;
     }
 
     public static boolean solucion(char[][] tablero, int x, int y){
+        int xNum = 0, yNum = 0;
+        for(int i = 0; i < tablero.length; i++){
+            if(tablero[x][i] == 'x'){
+                xNum++;
+            }else if(tablero[x][i] == 'o'){
+                yNum++;
+            }
+            if(xNum > 2 || yNum > 2){
+                return false;
+            }
+        }
+
+        xNum = 0;
+        yNum = 0;
+        for(int i = 0; i < tablero.length; i++){
+            if(tablero[i][y] == 'x'){
+                xNum++;
+            }else if(tablero[i][y] == 'o'){
+                yNum++;
+            }
+            if(xNum > 2 || yNum > 2){
+                return false;
+            }
+        }
         
+        int xOs = 0, yOs = 0;
+         for(int i = 0; i < tablero.length; i++){
+            if(tablero[x][i] == 'o'){
+                xOs++;
+            }
+            if(tablero[i][y] == 'o'){
+                yOs++;
+            }
+        }
+        return xOs <= tablero.length/2 && yOs <= tablero.length/2;
     }
 }
