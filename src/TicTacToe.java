@@ -6,6 +6,7 @@ public class TicTacToe {
         Scanner stdinput = new Scanner(System.in);
         int size = stdinput.nextInt();
         char[][] tablero = new char[size][size];
+        stdinput.nextLine();
         insertar(tablero, 0, 0, stdinput);
         stdinput.close();
         if(completar(tablero, 0, 0)){
@@ -16,19 +17,16 @@ public class TicTacToe {
                 System.out.println();
             }
         }else{
-            System.out.print("No hay solución.");//esValido y esSolucion
+            System.out.print("No hay solución.");
         }
     }
 
     public static void insertar(char[][] tablero, int x, int y, Scanner stdinput){
         if(x < tablero.length){
             String filaInput = stdinput.nextLine();
-            if (!filaInput.trim().isEmpty()) {
-                char[] fila = filaInput.toCharArray();
-                assert fila.length == tablero[y].length;
-                rellenarFila(tablero, x, 0, fila);
-                insertar(tablero, x+1, 0, stdinput);
-            }
+            char[] fila = filaInput.toCharArray();
+            rellenarFila(tablero, x, 0, fila);
+            insertar(tablero, x+1, 0, stdinput);
         }
     } 
 
@@ -43,7 +41,6 @@ public class TicTacToe {
         if (x == tablero.length){
             return true;
         }
-
         int newX = x, newY = y;
         if(y == tablero[y].length -1){
             newX++;
@@ -55,11 +52,11 @@ public class TicTacToe {
             return completar(tablero, newX, newY);
         }else{
             tablero[x][y] = 'x';
-            if(solucion(tablero, x , y) && completar(tablero, newX, newY)){
+            if(solucion(tablero, x , y, 'x') && completar(tablero, newX, newY)){
                 return true;
             }
             tablero[x][y] = 'o';
-            if(solucion(tablero, x , y) && completar(tablero, newX, newY)){
+            if(solucion(tablero, x , y, 'y') && completar(tablero, newX, newY)){
                 return true;
             }
             tablero[x][y] = '_';
@@ -67,7 +64,59 @@ public class TicTacToe {
         return false;
     }
 
-    public static boolean solucion(char[][] tablero, int x, int y){
+    public static boolean solucion(char[][] tablero, int x, int y, char ficha){
+        int contador = 0;
+        for (int i = 0; i < tablero.length; i++) {
+            if (tablero[x][i] == ficha) {
+                contador++;
+                if (contador == 3) {
+                    return true;
+                }
+            } else {
+                contador = 0;
+            }
+        }
+
+        contador = 0;
+        for (int i = 0; i < tablero.length; i++) {
+            if (tablero[i][y] == ficha) {
+                contador++;
+                if (contador == 3) {
+                    return true;
+                }
+            } else {
+                contador = 0;
+            }
+        }
+
+        if (x == y) {
+            contador = 0;
+            for (int i = 0; i < tablero.length; i++) {
+                if (tablero[i][i] == ficha) {
+                    contador++;
+                    if (contador == 3) {
+                        return true;
+                    }
+                } else {
+                    contador = 0;
+                }
+            }
+        }
+
+        if (x + y == tablero.length - 1) {
+            contador = 0;
+            for (int i = 0; i < tablero.length; i++) {
+                if (tablero[i][tablero.length - 1 - i] == ficha) {
+                    contador++;
+                    if (contador == 3) {
+                        return true;
+                    }
+                } else {
+                    contador = 0;
+                }
+            }
+        }
+
         int xNum = 0, yNum = 0;
         for(int i = 0; i < tablero.length; i++){
             if(tablero[x][i] == 'x'){
@@ -94,7 +143,7 @@ public class TicTacToe {
         }
         
         int xOs = 0, yOs = 0;
-         for(int i = 0; i < tablero.length; i++){
+        for(int i = 0; i < tablero.length; i++){
             if(tablero[x][i] == 'o'){
                 xOs++;
             }
@@ -102,6 +151,6 @@ public class TicTacToe {
                 yOs++;
             }
         }
-        return xOs <= tablero.length/2 && yOs <= tablero.length/2;
+        return (xOs <= tablero.length/2) && (yOs <= tablero.length/2);
     }
 }
