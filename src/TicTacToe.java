@@ -4,9 +4,8 @@ public class TicTacToe {
 
     public static void main(String[] args) throws Exception {
         Scanner stdinput = new Scanner(System.in);
-        int size = stdinput.nextInt();
-        char[][] tablero = new char[size][size];
-        stdinput.nextLine();
+        
+        char[][] tablero = new char[][];
         insertar(tablero, 0, 0, stdinput);
         stdinput.close();
         if(completar(tablero, 0, 0)){
@@ -56,7 +55,7 @@ public class TicTacToe {
                 return true;
             }
             tablero[x][y] = 'o';
-            if(solucion(tablero, x , y, 'y') && completar(tablero, newX, newY)){
+            if(solucion(tablero, x , y, 'o') && completar(tablero, newX, newY)){
                 return true;
             }
             tablero[x][y] = '_';
@@ -100,7 +99,7 @@ public class TicTacToe {
                 } else {
                     contador = 0;
                 }
-            }
+            } // No puede haber mas 2 de x o os seguidas y tiene que haber le mismo numero de x en cada fila y columna
         }
 
         if (x + y == tablero.length - 1) {
@@ -117,30 +116,59 @@ public class TicTacToe {
             }
         }
 
-        int xNum = 0, yNum = 0;
+        int xNum = 0, oNum = 0;
         for(int i = 0; i < tablero.length; i++){
-            if(tablero[x][i] == 'x'){
-                xNum++;
-            }else if(tablero[x][i] == 'o'){
-                yNum++;
+            for(int j = 0; j < tablero.length; j++){
+                if(tablero[i][j] == 'x'){
+                    xNum++;
+                } else if (tablero[i][j] == 'o'){
+                    oNum++;
+                }
+                if(xNum > 2 || oNum > 2){
+                    return false;
+                }
             }
-            if(xNum > 2 || yNum > 2){
-                return false;
-            }
+            xNum = oNum = 0;
         }
 
-        xNum = 0;
-        yNum = 0;
         for(int i = 0; i < tablero.length; i++){
-            if(tablero[i][y] == 'x'){
-                xNum++;
-            }else if(tablero[i][y] == 'o'){
-                yNum++;
+            for(int j = 0; j < tablero.length; j++){
+                if(tablero[j][i] == 'x'){
+                    xNum++;
+                } else if (tablero[j][i] == 'o'){
+                    oNum++;
+                }
+                if(xNum > 2 || oNum > 2){
+                    return false;
+                }
             }
-            if(xNum > 2 || yNum > 2){
-                return false;
-            }
+            xNum = oNum = 0;
         }
+
+        // int xNum = 0, yNum = 0;
+        // for(int i = 0; i < tablero.length; i++){
+        //     if(tablero[x][i] == 'x'){
+        //         xNum++;
+        //     }else if(tablero[x][i] == 'o'){
+        //         yNum++;
+        //     }
+        //     if(xNum > 2 || yNum > 2){
+        //         return false;
+        //     }
+        // }
+
+        // xNum = 0;
+        // yNum = 0;
+        // for(int i = 0; i < tablero.length; i++){
+        //     if(tablero[i][y] == 'x'){
+        //         xNum++;
+        //     }else if(tablero[i][y] == 'o'){
+        //         yNum++;
+        //     }
+        //     if(xNum > 2 || yNum > 2){
+        //         return false;
+        //     }
+        // }
         
         int xOs = 0, yOs = 0;
         for(int i = 0; i < tablero.length; i++){
