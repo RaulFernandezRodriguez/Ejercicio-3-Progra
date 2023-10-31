@@ -4,9 +4,13 @@ public class TicTacToe {
 
     public static void main(String[] args) throws Exception {
         Scanner stdinput = new Scanner(System.in);
-        
-        char[][] tablero = new char[][];
-        insertar(tablero, 0, 0, stdinput);
+        String Filainput = stdinput.nextLine();
+        char [] fila = Filainput.toCharArray();
+        char[][] tablero = new char[fila.length][fila.length];
+        for(int i = 0; i < fila.length; i++){
+            tablero[0][i] = fila[i];
+        }
+        insertar(tablero, 1, 0, stdinput);
         stdinput.close();
         if(completar(tablero, 0, 0)){
             for(int i = 0; i < tablero.length; i++){
@@ -51,11 +55,11 @@ public class TicTacToe {
             return completar(tablero, newX, newY);
         }else{
             tablero[x][y] = 'x';
-            if(solucion(tablero, x , y, 'x') && completar(tablero, newX, newY)){
+            if(solucion(tablero, x , y) && completar(tablero, newX, newY)){
                 return true;
             }
             tablero[x][y] = 'o';
-            if(solucion(tablero, x , y, 'o') && completar(tablero, newX, newY)){
+            if(solucion(tablero, x , y) && completar(tablero, newX, newY)){
                 return true;
             }
             tablero[x][y] = '_';
@@ -63,122 +67,110 @@ public class TicTacToe {
         return false;
     }
 
-    public static boolean solucion(char[][] tablero, int x, int y, char ficha){
-        int contador = 0;
-        for (int i = 0; i < tablero.length; i++) {
-            if (tablero[x][i] == ficha) {
-                contador++;
-                if (contador == 3) {
-                    return true;
-                }
-            } else {
-                contador = 0;
-            }
-        }
+    public static boolean solucion(char[][] tablero, int x, int y){
+// No puede haber mas 2 de x o os seguidas y tiene que haber le mismo numero de x en cada fila y columna
+        // for (int i = 0; i < tablero.length; i++) {
+        //     int consecutivasFila = 0;
+        //     int consecutivasColumna = 0;
+        //     int oCountFila = 0;
+        //     int oCountColumna = 0;
 
-        contador = 0;
-        for (int i = 0; i < tablero.length; i++) {
-            if (tablero[i][y] == ficha) {
-                contador++;
-                if (contador == 3) {
-                    return true;
-                }
-            } else {
-                contador = 0;
-            }
-        }
+        //     for (int j = 0; j < tablero.length; j++) {
+        //         if (tablero[x][j] == 'x') {
+        //             consecutivasFila++;
+        //             consecutivasColumna = 0;
+        //         } else if (tablero[x][j] == 'o') {
+        //             consecutivasFila = 0;
+        //             consecutivasColumna++;
+        //             oCountFila++;
+        //             oCountColumna++;
+        //         } else {
+        //             consecutivasFila = 0;
+        //             consecutivasColumna = 0;
+        //         }
 
-        if (x == y) {
-            contador = 0;
-            for (int i = 0; i < tablero.length; i++) {
-                if (tablero[i][i] == ficha) {
-                    contador++;
-                    if (contador == 3) {
-                        return true;
-                    }
-                } else {
-                    contador = 0;
-                }
-            } // No puede haber mas 2 de x o os seguidas y tiene que haber le mismo numero de x en cada fila y columna
-        }
-
-        if (x + y == tablero.length - 1) {
-            contador = 0;
-            for (int i = 0; i < tablero.length; i++) {
-                if (tablero[i][tablero.length - 1 - i] == ficha) {
-                    contador++;
-                    if (contador == 3) {
-                        return true;
-                    }
-                } else {
-                    contador = 0;
-                }
-            }
-        }
-
-        int xNum = 0, oNum = 0;
-        for(int i = 0; i < tablero.length; i++){
-            for(int j = 0; j < tablero.length; j++){
-                if(tablero[i][j] == 'x'){
-                    xNum++;
-                } else if (tablero[i][j] == 'o'){
-                    oNum++;
-                }
-                if(xNum > 2 || oNum > 2){
-                    return false;
-                }
-            }
-            xNum = oNum = 0;
-        }
-
-        for(int i = 0; i < tablero.length; i++){
-            for(int j = 0; j < tablero.length; j++){
-                if(tablero[j][i] == 'x'){
-                    xNum++;
-                } else if (tablero[j][i] == 'o'){
-                    oNum++;
-                }
-                if(xNum > 2 || oNum > 2){
-                    return false;
-                }
-            }
-            xNum = oNum = 0;
-        }
-
-        // int xNum = 0, yNum = 0;
-        // for(int i = 0; i < tablero.length; i++){
-        //     if(tablero[x][i] == 'x'){
-        //         xNum++;
-        //     }else if(tablero[x][i] == 'o'){
-        //         yNum++;
+        //         if (consecutivasFila > 2 || consecutivasColumna > 2) {
+        //             return false;
+        //         }
         //     }
-        //     if(xNum > 2 || yNum > 2){
+
+        //     if (oCountFila > tablero.length / 2 || oCountColumna > tablero.length / 2) {
         //         return false;
         //     }
         // }
 
-        // xNum = 0;
-        // yNum = 0;
-        // for(int i = 0; i < tablero.length; i++){
-        //     if(tablero[i][y] == 'x'){
-        //         xNum++;
-        //     }else if(tablero[i][y] == 'o'){
-        //         yNum++;
-        //     }
-        //     if(xNum > 2 || yNum > 2){
-        //         return false;
-        //     }
-        // }
-        
-        int xOs = 0, yOs = 0;
+        int xConsecutivos = 0, oConsecutivas = 0, oFila = 0, oColumna = 0;
         for(int i = 0; i < tablero.length; i++){
-            if(tablero[x][i] == 'o'){
-                xOs++;
+            if(tablero[x][i] == 'x'){
+                xConsecutivos++;
+                oConsecutivas = 0;
+            } else if(tablero[x][i] == 'o'){
+                oConsecutivas++;
+                xConsecutivos = 0;
+                oFila++;
             }
-            if(tablero[i][y] == 'o'){
-                yOs++;
+            if (xConsecutivos > 2 || oConsecutivas > 2) {
+                return false;
             }
         }
-        return (xOs <= tablero.length/2) && (yOs <= tablero.length/2);
+
+        xConsecutivos = oConsecutivas = 0;
+        for(int i = 0; i < tablero.length; i++){
+            if(tablero[i][y] == 'x'){
+                xConsecutivos++;
+                oConsecutivas = 0;
+            } else if(tablero[i][y] == 'o'){
+                oConsecutivas++;
+                xConsecutivos = 0;
+                oColumna++;
+            }
+            if (xConsecutivos > 2 || oConsecutivas > 2) {
+                return false;
+            }
+        }
+
+        if ((oFila > tablero.length / 2) || (oColumna > tablero.length / 2)) {
+            return false;
+        }
+        // int xNum = 0, oNum = 0;
+        // for(int i = 0; i < tablero.length; i++){
+        //     for(int j = 0; j < tablero.length; j++){
+        //         if(tablero[i][j] == 'x'){
+        //             xNum++;
+        //         } else if (tablero[i][j] == 'o'){
+        //             oNum++;
+        //         }
+        //         if(xNum > 2 || oNum > 2){
+        //             return false;
+        //         }
+        //     }
+        //     xNum = oNum = 0;
+        // }
+
+        // for(int i = 0; i < tablero.length; i++){
+        //     for(int j = 0; j < tablero.length; j++){
+        //         if(tablero[j][i] == 'x'){
+        //             xNum++;
+        //         } else if (tablero[j][i] == 'o'){
+        //             oNum++;
+        //         }
+        //         if(xNum > 2 || oNum > 2){
+        //             return false;
+        //         }
+        //     }
+        //     xNum = oNum = 0;
+        // }
+  
+        // int xOs = 0, yOs = 0;
+        // for(int i = 0; i < tablero.length; i++){
+        //     if(tablero[x][i] == 'o'){
+        //         xOs++;
+        //     }
+        //     if(tablero[i][y] == 'o'){
+        //         yOs++;
+        //     }
+        // }
+
+        return true;
     }
 }
