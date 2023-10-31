@@ -108,6 +108,9 @@ public class TicTacToe {
                 oConsecutivas++;
                 xConsecutivos = 0;
                 oFila++;
+            } else{
+                oConsecutivas = 0;
+                xConsecutivos = 0;
             }
             if (xConsecutivos > 2 || oConsecutivas > 2) {
                 return false;
@@ -123,6 +126,9 @@ public class TicTacToe {
                 oConsecutivas++;
                 xConsecutivos = 0;
                 oColumna++;
+            } else{
+                oConsecutivas = 0;
+                xConsecutivos = 0;
             }
             if (xConsecutivos > 2 || oConsecutivas > 2) {
                 return false;
