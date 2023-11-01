@@ -41,7 +41,7 @@ public class TicTacToe {
     }
 
     public static boolean completar(char[][] tablero, int x, int y){
-        if (x == tablero.length){
+        if (x == tablero.length -1 && y == tablero.length -1){
             return true;
         }
         int newX = x, newY = y;
@@ -135,9 +135,40 @@ public class TicTacToe {
             }
         }
 
-        if ((oFila > tablero.length / 2) || (oColumna > tablero.length / 2)) {
+        if (oFila != oColumna) { //(oFila > tablero.length / 2) || (oColumna > tablero.length / 2)
             return false;
         }
+
+        // int consecutivasFila = 0;
+        // int oCountFila = 0;
+    
+        // for (int j = 0; j < tablero.length; j++) {
+        //     if (tablero[x][j] == 'x') {
+        //         consecutivasFila++;
+        //     } else if (tablero[x][j] == 'o') {
+        //         oCountFila++;
+        //     }
+    
+        //     if (consecutivasFila > 2 || oCountFila > tablero.length / 2) {
+        //         return false;
+        //     }
+        // }
+    
+        // int consecutivasColumna = 0;
+        // int oCountColumna = 0;
+    
+        // for (int i = 0; i < tablero.length; i++) {
+        //     if (tablero[i][y] == 'x') {
+        //         consecutivasColumna++;
+        //     } else if (tablero[i][y] == 'o') {
+        //         oCountColumna++;
+        //     }
+    
+        //     if (consecutivasColumna > 2 || oCountColumna > tablero.length / 2) {
+        //         return false;
+        //     }
+        // }
+
         // int xNum = 0, oNum = 0;
         // for(int i = 0; i < tablero.length; i++){
         //     for(int j = 0; j < tablero.length; j++){
