@@ -69,36 +69,6 @@ public class TicTacToe {
 
     public static boolean solucion(char[][] tablero, int x, int y){
 // No puede haber mas 2 de x o os seguidas y tiene que haber le mismo numero de x en cada fila y columna
-        // for (int i = 0; i < tablero.length; i++) {
-        //     int consecutivasFila = 0;
-        //     int consecutivasColumna = 0;
-        //     int oCountFila = 0;
-        //     int oCountColumna = 0;
-
-        //     for (int j = 0; j < tablero.length; j++) {
-        //         if (tablero[x][j] == 'x') {
-        //             consecutivasFila++;
-        //             consecutivasColumna = 0;
-        //         } else if (tablero[x][j] == 'o') {
-        //             consecutivasFila = 0;
-        //             consecutivasColumna++;
-        //             oCountFila++;
-        //             oCountColumna++;
-        //         } else {
-        //             consecutivasFila = 0;
-        //             consecutivasColumna = 0;
-        //         }
-
-        //         if (consecutivasFila > 2 || consecutivasColumna > 2) {
-        //             return false;
-        //         }
-        //     }
-
-        //     if (oCountFila > tablero.length / 2 || oCountColumna > tablero.length / 2) {
-        //         return false;
-        //     }
-        // }
-
         int xConsecutivos = 0, oConsecutivas = 0, oFila = 0, oColumna = 0;
         for(int i = 0; i < tablero.length; i++){
             if(tablero[x][i] == 'x'){
@@ -138,76 +108,6 @@ public class TicTacToe {
         if (oFila != oColumna) { //(oFila > tablero.length / 2) || (oColumna > tablero.length / 2)
             return false;
         }
-
-        // int consecutivasFila = 0;
-        // int oCountFila = 0;
-    
-        // for (int j = 0; j < tablero.length; j++) {
-        //     if (tablero[x][j] == 'x') {
-        //         consecutivasFila++;
-        //     } else if (tablero[x][j] == 'o') {
-        //         oCountFila++;
-        //     }
-    
-        //     if (consecutivasFila > 2 || oCountFila > tablero.length / 2) {
-        //         return false;
-        //     }
-        // }
-    
-        // int consecutivasColumna = 0;
-        // int oCountColumna = 0;
-    
-        // for (int i = 0; i < tablero.length; i++) {
-        //     if (tablero[i][y] == 'x') {
-        //         consecutivasColumna++;
-        //     } else if (tablero[i][y] == 'o') {
-        //         oCountColumna++;
-        //     }
-    
-        //     if (consecutivasColumna > 2 || oCountColumna > tablero.length / 2) {
-        //         return false;
-        //     }
-        // }
-
-        // int xNum = 0, oNum = 0;
-        // for(int i = 0; i < tablero.length; i++){
-        //     for(int j = 0; j < tablero.length; j++){
-        //         if(tablero[i][j] == 'x'){
-        //             xNum++;
-        //         } else if (tablero[i][j] == 'o'){
-        //             oNum++;
-        //         }
-        //         if(xNum > 2 || oNum > 2){
-        //             return false;
-        //         }
-        //     }
-        //     xNum = oNum = 0;
-        // }
-
-        // for(int i = 0; i < tablero.length; i++){
-        //     for(int j = 0; j < tablero.length; j++){
-        //         if(tablero[j][i] == 'x'){
-        //             xNum++;
-        //         } else if (tablero[j][i] == 'o'){
-        //             oNum++;
-        //         }
-        //         if(xNum > 2 || oNum > 2){
-        //             return false;
-        //         }
-        //     }
-        //     xNum = oNum = 0;
-        // }
-  
-        // int xOs = 0, yOs = 0;
-        // for(int i = 0; i < tablero.length; i++){
-        //     if(tablero[x][i] == 'o'){
-        //         xOs++;
-        //     }
-        //     if(tablero[i][y] == 'o'){
-        //         yOs++;
-        //     }
-        // }
-
         return true;
     }
 }
