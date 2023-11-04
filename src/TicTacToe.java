@@ -41,8 +41,8 @@ public class TicTacToe {
     }
 
     public static boolean completar(char[][] tablero, int x, int y){
-        if (x == tablero.length -1 && y == tablero.length -1){
-            return true;
+        if (x == tablero.length){
+            return comprobarOs(tablero) && solucion(tablero, x, y);
         }
         int newX = x, newY = y;
         if(y == tablero[y].length -1){
@@ -69,45 +69,79 @@ public class TicTacToe {
 
     public static boolean solucion(char[][] tablero, int x, int y){
 // No puede haber mas 2 de x o os seguidas y tiene que haber le mismo numero de x en cada fila y columna
-        int xConsecutivos = 0, oConsecutivas = 0, oFila = 0, oColumna = 0;
+        int xConsecutivos = 0, oConsecutivas = 0;
         for(int i = 0; i < tablero.length; i++){
-            if(tablero[x][i] == 'x'){
-                xConsecutivos++;
-                oConsecutivas = 0;
-            } else if(tablero[x][i] == 'o'){
-                oConsecutivas++;
-                xConsecutivos = 0;
-                oFila++;
-            } else{
-                oConsecutivas = 0;
-                xConsecutivos = 0;
-            }
-            if (xConsecutivos > 2 || oConsecutivas > 2) {
-                return false;
+            xConsecutivos = oConsecutivas = 0;
+            for(int j = 0; j < tablero.length; j++){
+                if(tablero[i][j] == 'x'){
+                    xConsecutivos++;
+                    oConsecutivas = 0;
+                }else if (tablero[i][j] == 'o'){
+                    oConsecutivas++;
+                    xConsecutivos = 0;
+                }else{
+                    xConsecutivos = oConsecutivas = 0;
+                }
+
+                if(xConsecutivos > 2 || oConsecutivas > 2){
+                    return false;
+                }
             }
         }
 
-        xConsecutivos = oConsecutivas = 0;
         for(int i = 0; i < tablero.length; i++){
-            if(tablero[i][y] == 'x'){
-                xConsecutivos++;
-                oConsecutivas = 0;
-            } else if(tablero[i][y] == 'o'){
-                oConsecutivas++;
-                xConsecutivos = 0;
-                oColumna++;
-            } else{
-                oConsecutivas = 0;
-                xConsecutivos = 0;
-            }
-            if (xConsecutivos > 2 || oConsecutivas > 2) {
-                return false;
-            }
-        }
+            xConsecutivos = oConsecutivas = 0;
+            for(int j = 0; j < tablero.length; j++){
+                if(tablero[j][i] == 'x'){
+                    xConsecutivos++;
+                    oConsecutivas = 0;
+                }else if (tablero[j][i] == 'o'){
+                    oConsecutivas++;
+                    xConsecutivos = 0;
+                }else{
+                    xConsecutivos = oConsecutivas = 0;
+                }
 
-        if (oFila != oColumna) { //(oFila > tablero.length / 2) || (oColumna > tablero.length / 2)
-            return false;
+                if(xConsecutivos > 2 || oConsecutivas > 2){
+                    return false;
+                }
+            }
         }
         return true;
     }
-}
+
+    public static boolean comprobarOs(char[][] tablero){
+        int[] oFila = new int[tablero.length];
+        int[] oColumna = new int[tablero.length];
+
+        for (int i = 0; i < tablero.length; i++) {
+            for (int j = 0; j < tablero.length; j++) {
+                if (tablero[i][j] == 'o') {
+                    oFila[i]++;
+                }
+            }
+        }
+
+        for (int i = 0; i < tablero.length; i++) {
+            for (int j = 0; j < tablero.length; j++) {
+                if (tablero[j][i] == 'o') {
+                    oColumna[i]++;
+                }
+            }
+        }
+
+        for(int i = 0; i < tablero.length; i++){
+            int conFila = oFila[0], conColumna = oColumna[0];
+            if(conFila != oFila[i] || conColumna != oColumna[i]){
+                return false;
+            }
+        }
+
+        for (int i = 0; i < tablero.length; i++) {
+            if (oFila[i] != oColumna[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+} 
